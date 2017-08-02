@@ -1,0 +1,28 @@
+#ifndef __DKPORTMON_SHARED__
+#define __DKPORTMON_SHARED__
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#define DKPORT_STR_LEN		256
+#define DKPORT_DAT_LEN		512
+
+typedef struct DKPORT_DAT_Tag {
+	ULONG			FuncNameLen;
+	WCHAR			StrFuncName[DKPORT_STR_LEN];
+	ULONG			DataLen;
+	UCHAR			Data[DKPORT_DAT_LEN];
+} DKPORT_DAT, *PDKPORT_DAT;
+
+#define IOCTL_DKPORTMON_ATTACH_DEVICE \
+	CTL_CODE(FILE_DEVICE_UNKNOWN, 0x811, METHOD_BUFFERED, FILE_WRITE_DATA)
+
+#define IOCTL_DKPORTMON_DETACH_DEVICE \
+	CTL_CODE(FILE_DEVICE_UNKNOWN, 0x812, METHOD_BUFFERED, FILE_WRITE_DATA)
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif  // End of __DKPORTMON_SHARED__

@@ -1,0 +1,79 @@
+;/*++
+;
+;Copyright (c) 2010-2011 Soewardjono Corporation All rights Reserved
+;
+;Module Name:
+;
+; DkPortMon.INF
+;
+;Abstract:
+; INF file for installing DkPortMon system driver
+;
+;--*/
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=System
+ClassGuid={4D36E97D-E325-11CE-BFC1-08002BE10318}
+Provider=%SWDJ%
+DriverVer=10/27/2015,20.39.34.482
+CatalogFile=DkPortMon.cat 
+
+[DestinationDirs]
+DkPortMon_DRV.CopyFiles = 12
+
+[Manufacturer]
+%DSF_MFG%=DkPortMon_SYS,NTamd64
+
+[DkPortMon_SYS.NTamd64]
+%DkPortMon.DeviceDesc% = DkPortMon_DRV, ROOT\DkPortMon
+
+[DkPortMon.AddReg]
+HKR,MofImagePath,,,%12%\DkPortMon.sys ;MOF Image name for WMI logging
+
+[DkPortMon.AddService]
+DisplayName = %DkPortMon.DeviceDesc%
+ServiceType = %SERVICE_KERNEL_DRIVER%
+StartType = %SERVICE_BOOT_START%
+StartType = %SERVICE_DEMAND_START%
+ErrorControl = 1 ; SERVICE_ERROR_NORMAL
+
+ErrorControl = %SERVICE_ERROR_CRITICAL%
+ServiceBinary = %12%\DkPortMon.sys
+LoadOrderGroup = DSF
+AddReg = DkPortMon.AddReg
+
+[DkPortMon_DRV]
+CopyFiles=DkPortMon_DRV.CopyFiles
+
+[DkPortMon_DRV.CopyFiles]
+DkPortMon.sys
+
+[DkPortMon_DRV.Services]
+AddService=%SERVICE_NAME%,0x3,DkPortMon.AddService
+
+[SourceDisksNames]
+1 = "In the current directory!"
+
+[SourceDisksFiles]
+DkPortMon.sys = 1
+dsfoleaut32.sys = 1
+hrmcfgspc.sys = 1
+hrmints.sys = 1
+hrmports.sys = 1
+
+
+;------------------------------------------------------------------------------
+; String Definitions
+;------------------------------------------------------------------------------
+[Strings]
+SWDJ	= "Soewardjono"
+StdMfg	= "Soewardjono Corp."
+DSF_MFG = "(Standard system devices)"
+DkPortMon.DeviceDesc = "DkPortMon System Driver"
+SERVICE_NAME = DkPortMon
+SERVICE_KERNEL_DRIVER = 1
+SERVICE_BOOT_START = 0
+SERVICE_DEMAND_START = 3
+;SERVICE_ERROR_NORMAL = 1
+SERVICE_ERROR_CRITICAL = 3
